@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 
 all: so-cpp
 
@@ -16,6 +16,6 @@ hashmap.o: hashmap.c
 
 run:
 	./so-cpp
-	
+
 clean:
 	rm -f *.o so-cpp

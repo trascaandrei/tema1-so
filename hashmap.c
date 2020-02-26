@@ -136,3 +136,11 @@ char* map_find(hashmap *map, char *key) {
 
     return NULL;
 }
+
+void map_free(hashmap *map) {
+    for (int i = 0; i < map->size; i++) {
+        free(map->map[i]);
+    }
+    free(map->map);
+    free(map);
+}

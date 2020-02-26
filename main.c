@@ -8,5 +8,6 @@ int main(int argc, char *argv[]) {
     map_insert(map, "hello", "world");
     map_insert(map, "hello", "map");
     printf("%s", map_find(map, "hello"));
+    map_free(map);
     return 0;
 }
