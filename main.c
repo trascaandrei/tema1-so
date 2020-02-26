@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "hashmap.h"
+#include "helpers.h"
 
 int main(int argc, char *argv[]) {
     hashmap *map = map_create(100);
