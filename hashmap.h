@@ -1,3 +1,6 @@
+#ifndef __HASHMAP_H__
+#define __HASHMAP_H__
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -21,3 +24,4 @@ char* map_find(hashmap *map, char *key);
 void map_insert(hashmap *map, char *key, char *val);
 void map_free(hashmap *map);
 
+#endif

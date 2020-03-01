@@ -2,11 +2,13 @@
 #include <stdlib.h>
 
 #include "helpers.h"
+#include "hashmap.h"
 #include "parser.h"
+
 
 int main(int argc, char *argv[]) {
     parsed_args *args = parse_arguments(argc, argv);
-    FILE *ifp;
+    FILE *ifp = NULL;
 
     if (args->bad_args) {
       return 12;
@@ -15,7 +17,7 @@ int main(int argc, char *argv[]) {
     if (args->infile == NULL) {
       args->infile = "stdin";
     } else {
-      ifp = fopen(args->infile, "r")
+      ifp = fopen(args->infile, "r");
 
       if (ifp == NULL) {
         printf("Error on opening input file");
