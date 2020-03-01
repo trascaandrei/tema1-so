@@ -90,3 +90,7 @@ parsed_args *parse_arguments(int argc, char *argv[]) {
 
   return args;
 }
+
+void print(const char *string, char *infile) {
+  
+}

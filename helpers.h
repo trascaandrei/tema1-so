@@ -10,3 +10,4 @@ typedef struct parsed_args {
 } parsed_args;
 
 parsed_args *parse_arguments(int argc, char *argv[]);
+void print(const char *string, char *infile);
