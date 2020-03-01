@@ -15,4 +15,6 @@ const char *INCLUDE = "include";
 char *parse_line(char *line, int *multiline_define, int *if_started,
                   hashmap *map);
 
+char *parse_non_preprocessor(char *line, hashmap *map);
+
 #endif
