@@ -70,7 +70,7 @@ hashmap *map_create(int size) {
 unsigned long crc32(const unsigned char *s, unsigned int len) {
   unsigned int i;
   unsigned long crc32val;
-  
+
   crc32val = 0;
   for (i = 0;  i < len;  i ++) {
     crc32val = crc32_tab[(crc32val ^ s[i]) & 0xff] ^
@@ -104,7 +104,6 @@ void map_insert(hashmap *map, char *key, char *val) {
     int pos = hash_code(map, key);
     node *list = map->map[pos];
     node *tmp = list;
-
     while (tmp) {
         if (strcmp(tmp->key, key) == 0) {
             tmp->val = val;
@@ -112,11 +111,11 @@ void map_insert(hashmap *map, char *key, char *val) {
         }
         tmp = tmp->next;
     }
-    
+
 
     node *new_node = (node *)malloc(sizeof(node));
-    new_node->key = key;
-    new_node->val = val;
+    new_node->key = strdup(key);
+    new_node->val = strdup(val);
     new_node->next = list;
     map->map[pos] = new_node;
 }
@@ -143,4 +142,15 @@ void map_free(hashmap *map) {
     }
     free(map->map);
     free(map);
+}
+
+void map_print(hashmap *map) {
+  for (int i = 0; i < map->size; i++) {
+    node *tmp = map->map[i];
+    while (tmp != NULL) {
+      printf("%s - %s; ", tmp->key, tmp->val);
+      tmp = tmp->next;
+    }
+    printf("\n");
+  }
 }

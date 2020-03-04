@@ -1,3 +1,6 @@
+#ifndef __HASHMAP_H__
+#define __HASHMAP_H__
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -20,4 +23,6 @@ int hash_code(hashmap *m, char* keystring);
 char* map_find(hashmap *map, char *key);
 void map_insert(hashmap *map, char *key, char *val);
 void map_free(hashmap *map);
+void map_print(hashmap *map);
 
+#endif
