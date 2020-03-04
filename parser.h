@@ -3,17 +3,15 @@
 
 #include "hashmap.h"
 
-const char *DEFINE = "#define";
-const char *IF = "#if";
-const char *ELIF = "#elif";
-const char *ELSE = "#else";
-const char *ENDIF = "#endif";
-const char *IFDEF = "#ifdef";
-const char *IFNDEF = "#ifndef";
-const char *INCLUDE = "include";
+typedef struct multi_define {
+  int multiline_define;
+  char *key;
+} multi_define;
 
-char *parse_line(char *line, int *multiline_define, int *if_started,
+void parse_line(char *line, multi_define *is_on, int *if_started,
                   hashmap *map);
+
+void parse_define(char *line, multi_define *is_on, hashmap *map);
 
 char *parse_non_preprocessor(char *line, hashmap *map);
 

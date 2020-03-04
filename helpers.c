@@ -91,6 +91,18 @@ parsed_args *parse_arguments(int argc, char *argv[]) {
   return args;
 }
 
-void print(const char *string, char *infile) {
+char *read(FILE *ifp) {
+  static char buff[1024];
   
+  if (ifp == NULL) {
+    if (fgets(buff, sizeof(buff), stdin) == NULL) {
+        return NULL;
+    }
+  } else {
+    if (fgets(buff, sizeof(buff), ifp) == NULL) {
+      return NULL;
+    }
+  }
+
+  return buff;
 }

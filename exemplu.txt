@@ -1,0 +1,13 @@
+#include <idk>
+
+#define val 123
+#define val2 1024
+#define val 102 \
+  + 234 \
+  + 121
+
+int main() {
+  printf("Hello world %d", val);
+
+  return 0;
+}

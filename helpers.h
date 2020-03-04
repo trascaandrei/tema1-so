@@ -1,6 +1,8 @@
 #ifndef __HELPERS_H__
 #define __HELPERS_H__
 
+#include <stdio.h>
+
 #include "hashmap.h"
 
 typedef struct parsed_args {
@@ -13,6 +15,6 @@ typedef struct parsed_args {
 } parsed_args;
 
 parsed_args *parse_arguments(int argc, char *argv[]);
-void print(const char *string, char *infile);
+char *read(FILE *ifp);
 
 #endif

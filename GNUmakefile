@@ -15,7 +15,7 @@ hashmap.o: hashmap.c
 helpers.o: helpers.c
 	$(CC) $(CFLAGS) -c $^
 
-parser.o: parser.c
+parser.o: parser.c parser.h
 	$(CC) $(CFLAGS) -c $^
 
 .PHONY:
