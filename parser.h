@@ -8,7 +8,7 @@ typedef struct multi_define {
   char *key;
 } multi_define;
 
-void parse_line(char *line, multi_define *is_on, int *if_started,
+char *parse_line(char *line, multi_define *is_on, int *if_started,
                   hashmap *map);
 
 void parse_define(char *line, multi_define *is_on, hashmap *map);

@@ -1,0 +1,91 @@
+==4138== Memcheck, a memory error detector
+==4138== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==4138== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==4138== Command: ./so-cpp _test/inputs/test16.in
+==4138== Parent PID: 4131
+==4138== 
+==4138== Conditional jump or move depends on uninitialised value(s)
+==4138==    at 0x109691: parse_arguments (helpers.c:81)
+==4138==    by 0x108C38: main (main.c:10)
+==4138== 
+==4138== Invalid write of size 1
+==4138==    at 0x4C32E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4138==    by 0x109700: parse_arguments (helpers.c:86)
+==4138==    by 0x108C38: main (main.c:10)
+==4138==  Address 0x522d236 is 0 bytes after a block of size 22 alloc'd
+==4138==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4138==    by 0x1096CB: parse_arguments (helpers.c:85)
+==4138==    by 0x108C38: main (main.c:10)
+==4138== 
+==4138== Syscall param openat(filename) points to unaddressable byte(s)
+==4138==    at 0x4F4BC8E: open (open64.c:47)
+==4138==    by 0x4EC8589: _IO_file_open (fileops.c:189)
+==4138==    by 0x4EC8589: _IO_file_fopen@@GLIBC_2.2.5 (fileops.c:281)
+==4138==    by 0x4EBAEA9: __fopen_internal (iofopen.c:78)
+==4138==    by 0x4EBAEA9: fopen@@GLIBC_2.2.5 (iofopen.c:89)
+==4138==    by 0x108CA1: main (main.c:22)
+==4138==  Address 0x522d236 is 0 bytes after a block of size 22 alloc'd
+==4138==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4138==    by 0x1096CB: parse_arguments (helpers.c:85)
+==4138==    by 0x108C38: main (main.c:10)
+==4138== 
+==4138== 
+==4138== Process terminating with default action of signal 2 (SIGINT)
+==4138==    at 0x4F4BC8C: open (open64.c:47)
+==4138==    by 0x4EC8589: _IO_file_open (fileops.c:189)
+==4138==    by 0x4EC8589: _IO_file_fopen@@GLIBC_2.2.5 (fileops.c:281)
+==4138==    by 0x4EBAEA9: __fopen_internal (iofopen.c:78)
+==4138==    by 0x4EBAEA9: fopen@@GLIBC_2.2.5 (iofopen.c:89)
+==4138==    by 0x108CA1: main (main.c:22)
+==4138== 
+==4138== HEAP SUMMARY:
+==4138==     in use at exit: 790 bytes in 6 blocks
+==4138==   total heap usage: 6 allocs, 0 frees, 790 bytes allocated
+==4138== 
+==4138== 0 bytes in 1 blocks are still reachable in loss record 1 of 6
+==4138==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4138==    by 0x10933E: alloc_args (helpers.c:19)
+==4138==    by 0x1094A9: parse_arguments (helpers.c:53)
+==4138==    by 0x108C38: main (main.c:10)
+==4138== 
+==4138== 16 bytes in 1 blocks are still reachable in loss record 2 of 6
+==4138==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4138==    by 0x108DC3: map_create (hashmap.c:59)
+==4138==    by 0x109323: alloc_args (helpers.c:18)
+==4138==    by 0x1094A9: parse_arguments (helpers.c:53)
+==4138==    by 0x108C38: main (main.c:10)
+==4138== 
+==4138== 22 bytes in 1 blocks are still reachable in loss record 3 of 6
+==4138==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4138==    by 0x1096CB: parse_arguments (helpers.c:85)
+==4138==    by 0x108C38: main (main.c:10)
+==4138== 
+==4138== 40 bytes in 1 blocks are still reachable in loss record 4 of 6
+==4138==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4138==    by 0x109307: alloc_args (helpers.c:15)
+==4138==    by 0x1094A9: parse_arguments (helpers.c:53)
+==4138==    by 0x108C38: main (main.c:10)
+==4138== 
+==4138== 160 bytes in 1 blocks are still reachable in loss record 5 of 6
+==4138==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4138==    by 0x108DE1: map_create (hashmap.c:61)
+==4138==    by 0x109323: alloc_args (helpers.c:18)
+==4138==    by 0x1094A9: parse_arguments (helpers.c:53)
+==4138==    by 0x108C38: main (main.c:10)
+==4138== 
+==4138== 552 bytes in 1 blocks are still reachable in loss record 6 of 6
+==4138==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4138==    by 0x4EBAE49: __fopen_internal (iofopen.c:65)
+==4138==    by 0x4EBAE49: fopen@@GLIBC_2.2.5 (iofopen.c:89)
+==4138==    by 0x108CA1: main (main.c:22)
+==4138== 
+==4138== LEAK SUMMARY:
+==4138==    definitely lost: 0 bytes in 0 blocks
+==4138==    indirectly lost: 0 bytes in 0 blocks
+==4138==      possibly lost: 0 bytes in 0 blocks
+==4138==    still reachable: 790 bytes in 6 blocks
+==4138==         suppressed: 0 bytes in 0 blocks
+==4138== 
+==4138== For counts of detected and suppressed errors, rerun with: -v
+==4138== Use --track-origins=yes to see where uninitialised values come from
+==4138== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)

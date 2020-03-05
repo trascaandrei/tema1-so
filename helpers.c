@@ -106,3 +106,11 @@ char *read(FILE *ifp) {
 
   return buff;
 }
+
+void write(FILE *ofp, char *string) {
+  if (ofp == NULL) {
+    printf("%s", string);
+  } else {
+    fprintf(ofp, "%s", string);
+  }
+}

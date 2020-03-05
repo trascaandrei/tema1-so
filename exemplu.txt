@@ -1,13 +1,13 @@
-#include <idk>
-
-#define val 123
-#define val2 1024
-#define val 102 \
-  + 234 \
-  + 121
+#define VAR0 1 \
+        + 2\
+        + 3\
+        + 4
 
 int main() {
-  printf("Hello world %d", val);
+    int y = VAR0 + 1;
+    #undef VAR0
+    
+    printf("%d\n", VAR0);
 
-  return 0;
+    return 0;
 }

@@ -1,0 +1,8 @@
+
+int main() {
+    int y = 1 + 2+ 3+ 4 + 1;
+    
+    printf("%d\n", VAR0);
+
+    return 0;
+}

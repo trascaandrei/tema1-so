@@ -9,10 +9,11 @@
 int main(int argc, char *argv[]) {
     parsed_args *args = parse_arguments(argc, argv);
     FILE *ifp = NULL;
+    FILE *ofp = NULL;
     hashmap *map = args->map;
 
     if (args->bad_args) {
-      return 12;
+      return 0;
     }
 
     if (args->infile == NULL) {
@@ -26,15 +27,33 @@ int main(int argc, char *argv[]) {
       }
     }
 
+    if (args->output_file == NULL) {
+      args->output_file = "stdin";
+    } else {
+      ofp = fopen(args->output_file, "w");
+
+      
+      if (ofp == NULL) {
+        printf("Error on opening output file");
+        return 12;
+      }
+    }
+
     char *line = read(ifp);
     multi_define *is_on = (multi_define *)malloc(sizeof(multi_define));
     while (line != NULL) {
       int is = 0;
-      parse_line(line, is_on, &is, map);
+      char *parsed_line = parse_line(line, is_on, &is, map);
+     
+      if (parsed_line != NULL) {
+        //printf("%s", parsed_line);
+        write(ofp, parsed_line);
+      }
+
       line = read(ifp);
     }
 
-    //map_print(map);
+    map_free(map);
 
     return 0;
 }

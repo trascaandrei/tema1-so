@@ -16,5 +16,6 @@ typedef struct parsed_args {
 
 parsed_args *parse_arguments(int argc, char *argv[]);
 char *read(FILE *ifp);
+void write(FILE *ofp, char *string);
 
 #endif

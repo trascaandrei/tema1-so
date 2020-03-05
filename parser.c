@@ -1,6 +1,7 @@
 #include "parser.h"
 
 const char *DEFINE_S = "#define";
+const char *UNDEF_S = "#undef";
 const char *IF_S = "#if";
 const char *ELIF_S = "#elif";
 const char *ELSE_S = "#else";
@@ -32,9 +33,11 @@ char *parse_non_preprocessor(char *line, hashmap *map) {
       buffer[n++] = (*copy);
       copy++;
       string_started = 1 - string_started;
-    } else if (is_separator(*copy) || string_started) {
+    } else if (string_started) {
+      buffer[n++] = (*copy);
+      copy++;
+    } else if (is_separator(*copy)) {
       if (word_started == 1) {
-        word_started = 0;
         new_word[new_word_n] = '\0';
         char *find_res = map_find(map, new_word);
 
@@ -48,6 +51,7 @@ char *parse_non_preprocessor(char *line, hashmap *map) {
           }
         }
 
+        word_started = 0;
         new_word_n = 0;
       }
       buffer[n++] = (*copy);
@@ -82,7 +86,7 @@ void parse_define(char *line, multi_define *is_on, hashmap *map) {
     }
     strcat(add_new_line, value);
     map_insert(map, is_on->key, add_new_line);
-  } else if (strncmp(line, DEFINE_S, 7) == 0) {
+  } else if (strstr(line, DEFINE_S) != NULL) {
     char *copy = strdup(line);
     char *key;
     char *value;
@@ -94,6 +98,7 @@ void parse_define(char *line, multi_define *is_on, hashmap *map) {
     if (value[strlen(value) - 1] == '\\') {
         // eliminate \ character
         value[strlen(value) - 1] = '\0';
+        
         map_insert(map, key, value);
         is_on->multiline_define = 1;
         is_on->key = strdup(key);
@@ -103,14 +108,29 @@ void parse_define(char *line, multi_define *is_on, hashmap *map) {
   }
 }
 
-void parse_line(char *line, multi_define *is_on, int *if_started,
+void parse_undefine(char *line, hashmap *map) {
+  char *copy = strdup(line);
+  char *key;
+  strtok(copy, " \t");
+  key = strtok(NULL, " \r\n");
+
+  map_delete(map, key);
+}
+
+char *parse_line(char *line, multi_define *is_on, int *if_started,
                   hashmap *map) {
 
-if ((is_on->multiline_define == 1) || strncmp(line, DEFINE_S, 7) == 0) {
-  parse_define(line, is_on, map);
-} else {
-  printf("%s", parse_non_preprocessor(line, map));
-}
+  char *copy = strdup(line);
+
+  if ((is_on->multiline_define == 1) || strstr(line, DEFINE_S) != NULL) {
+    parse_define(line, is_on, map);
+  } else if (strstr(line, UNDEF_S) != NULL) {
+    parse_undefine(line, map);
+  } else {
+    //printf("%s", parse_non_preprocessor(line, map));
+    char *buffer = strdup(parse_non_preprocessor(line, map));
+    return buffer;
+  }
 
 
 }

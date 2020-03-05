@@ -120,11 +120,35 @@ void map_insert(hashmap *map, char *key, char *val) {
     map->map[pos] = new_node;
 }
 
+void map_delete(hashmap *map, char *key) {
+  int pos = hash_code(map, key);
+  node *list = map->map[pos];
+  node *tmp = list;
+
+  if (strcmp(tmp->key, key) == 0) {
+    if (tmp->next) {
+      map->map[pos] = tmp->next;
+    } else {
+      map->map[pos] = NULL;
+    }
+    return;
+  }
+
+  while (tmp->next) {
+    if (strcmp(tmp->next->key, key) == 0) {
+      node *s = tmp->next;
+      tmp->next = s->next;
+      free(s);
+    }
+    tmp = tmp->next;
+  }
+}
+
 char* map_find(hashmap *map, char *key) {
     int pos = hash_code(map, key);
     node *list = map->map[pos];
     node *tmp = list;
-
+    
     while (tmp) {
         if (strcmp(tmp->key, key) == 0) {
             return tmp->val;
