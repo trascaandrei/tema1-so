@@ -1,17 +1,15 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
-
 #ifndef __PARSER_H__
 #define __PARSER_H__
 
 #include "hashmap.h"
 
 typedef struct multi_define {
-	int multiline_define;
-	char *key;
+  int multiline_define;
+  char *key;
 } multi_define;
 
 char *parse_line(char *line, multi_define *is_on, int *if_started,
-	hashmap *map);
+                  hashmap *map);
 
 void parse_define(char *line, multi_define *is_on, hashmap *map);
 

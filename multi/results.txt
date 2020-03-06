@@ -1,86 +1,13 @@
-'checkpatch.pl' tool not found on your system. Skipping source check...
-Please download 'checkpatch.pl' from 'https://raw.githubusercontent.com/torvalds/linux/master/scripts/checkpatch.pl' and install it in your $PATH.
-
+No structs that should be const will be found - file '/home/andrei/tema1-so/const_structs.checkpatch': No such file or directory
 00) Sources check...........................................failed  [ 0/95]
 Error on opening input file01) Test bad input..........................................passed  [01/95]
-Error on input arguments02) Test bad parameters.....................................failed  [ 0/95]
-Error on input arguments03) Test multiple files.....................................failed  [ 0/95]
+Error on input argumentsBad args02) Test bad parameters.....................................passed  [01/95]
+Error on input argumentsBad args03) Test multiple files.....................................passed  [01/95]
 _test/outputs/test4.out vs _test/outputs/test4.ref:
---- _test/outputs/test4.out	2020-03-05 01:55:22.416304342 +0200
-+++ _test/outputs/test4.ref	2020-03-05 01:55:21.896301237 +0200
+--- _test/outputs/test4.out	2020-03-06 17:34:52.968946552 +0200
++++ _test/outputs/test4.ref	2020-03-06 17:34:52.340944743 +0200
 @@ -1 +1 @@
 -file passed through standard 
 +file passed through standard input
 04) Test stdin file.........................................failed  [ 0/95]
 04) Test stdin file - memcheck..............................failed  [ 0/95]
-_test/outputs/test5.out vs _test/outputs/test5.ref:
---- _test/outputs/test5.out	2020-03-05 01:55:22.980307708 +0200
-+++ _test/outputs/test5.ref	2020-03-05 01:55:22.448304532 +0200
-@@ -1 +1 @@
--file passed through 
-+file passed through parameter
-05) Test simple file........................................failed  [ 0/95]
-05) Test simple file - memcheck.............................failed  [ 0/95]
-Error on input arguments_test/outputs/test6.out vs _test/outputs/test6.ref:
-06) Test simple out file....................................failed  [ 0/95]
-06) Test simple out file - memcheck.........................failed  [ 0/95]
-07) Test simple define......................................passed  [02/95]
-07) Test simple define - memcheck...........................failed  [ 0/95]
-08) Test param define.......................................passed  [02/95]
-08) Test param define - memcheck............................failed  [ 0/95]
-09) Test simple define/undef................................passed  [02/95]
-09) Test simple define/undef - memcheck.....................failed  [ 0/95]
-10) Test multiple defines...................................passed  [02/95]
-10) Test multiple defines - memcheck........................failed  [ 0/95]
-_test/outputs/test11.out vs _test/outputs/test11.ref:
---- _test/outputs/test11.out	2020-03-05 01:55:26.360327887 +0200
-+++ _test/outputs/test11.ref	2020-03-05 01:55:25.828324711 +0200
-@@ -1,7 +1,5 @@
--
- int main() {
-     printf("%d\n", 10);
--    int x = ABC + 15 + 20;
--
-+    int x = 10 + 15 + 20;
-     return 0;
-11) Test nested defines.....................................failed  [ 0/95]
-11) Test nested defines - memcheck..........................failed  [ 0/95]
-12) Test multi-lines defines................................passed  [02/95]
-12) Test multi-lines defines - memcheck.....................failed  [ 0/95]
-_test/outputs/test13.out vs _test/outputs/test13.ref:
---- _test/outputs/test13.out	2020-03-05 01:55:27.488334622 +0200
-+++ _test/outputs/test13.ref	2020-03-05 01:55:26.956331446 +0200
-@@ -1,6 +1,4 @@
- int main() {
--#if 
- 	printf("Yes!\n");
--
- 	return 0;
- }
-13) Test simple if true.....................................failed  [ 0/95]
-13) Test simple if true - memcheck..........................failed  [ 0/95]
-_test/outputs/test14.out vs _test/outputs/test14.ref:
---- _test/outputs/test14.out	2020-03-05 01:55:28.052337989 +0200
-+++ _test/outputs/test14.ref	2020-03-05 01:55:27.520334813 +0200
-@@ -1,6 +1,3 @@
- int main() {
--#if 
--	printf("No!\n");
--
- 	return 0;
- }
-14) Test simple if false....................................failed  [ 0/95]
-14) Test simple if false - memcheck.........................failed  [ 0/95]
-_test/outputs/test15.out vs _test/outputs/test15.ref:
---- _test/outputs/test15.out	2020-03-05 01:55:28.616341356 +0200
-+++ _test/outputs/test15.ref	2020-03-05 01:55:28.084338180 +0200
-@@ -1,7 +1,4 @@
--
- int main() {
--#if 
- 	printf("Yes!\n");
--
- 	return 0;
- }
-15) Test define if true.....................................failed  [ 0/95]
-15) Test define if true - memcheck..........................failed  [ 0/95]
