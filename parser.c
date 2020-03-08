@@ -23,7 +23,8 @@ int is_separator(char c) {
 
 char *parse_non_preprocessor(char *line, hashmap *map) {
 	char *copy = strdup(line);
-	static char buffer[1024];
+	char *free_copy = copy;
+	static char buffer[256];
 	int n = 0;
 	int string_started = 0;
 	int word_started = 1;
@@ -65,6 +66,22 @@ char *parse_non_preprocessor(char *line, hashmap *map) {
 		}
 	}
 
+	free(free_copy);
+
+	if (word_started == 1) {
+		new_word[new_word_n] = '\0';
+		char *find_res = map_find(map, new_word);
+
+		if (find_res == NULL) {
+			for (int i = 0; i < new_word_n; i++) {
+				buffer[n++] = new_word[i];
+			}
+		} else {
+			for (int i = 0; i < strlen(find_res); i++) {
+				buffer[n++] = find_res[i];
+			}
+		}
+	}
 
 	buffer[n++] = '\n';
 	buffer[n] = '\0';
@@ -73,13 +90,14 @@ char *parse_non_preprocessor(char *line, hashmap *map) {
 
 void parse_define(char *line, multi_define *is_on, hashmap *map) {
 	if (is_on->multiline_define == 1) {
-		char add_new_line[1024];
+		char add_new_line[256] = "";
 		strcpy(add_new_line, map_find(map, is_on->key));
 		while((*line) == ' ') {
 			line++;
 		}
-		char *copy = strdup(line);
-		char *value;
+		char copy[256];
+		strcpy(copy, line);
+		char *value = NULL;
 		if (strchr(line, '\\') == NULL) {
 			is_on->multiline_define = 0;
 			value = strtok(copy, "\n");
@@ -89,7 +107,8 @@ void parse_define(char *line, multi_define *is_on, hashmap *map) {
 		strcat(add_new_line, value);
 		map_insert(map, is_on->key, add_new_line);
 	} else if (strstr(line, DEFINE_S) != NULL) {
-		char *copy = strdup(line);
+		char copy[256];
+		strcpy(copy, line);
 		char *key;
 		char *value;
 
@@ -103,6 +122,9 @@ void parse_define(char *line, multi_define *is_on, hashmap *map) {
 
 			map_insert(map, key, value);
 			is_on->multiline_define = 1;
+			if (is_on->key) {
+				free(is_on->key);
+			}
 			is_on->key = strdup(key);
 		} else {
 			map_insert(map, key, value);
@@ -111,9 +133,8 @@ void parse_define(char *line, multi_define *is_on, hashmap *map) {
 }
 
 void parse_undefine(char *line, hashmap *map) {
-	char *copy = strdup(line);
 	char *key;
-	strtok(copy, " \t");
+	strtok(line, " \t");
 	key = strtok(NULL, " \r\n");
 
 	map_delete(map, key);
@@ -122,17 +143,15 @@ void parse_undefine(char *line, hashmap *map) {
 char *parse_line(char *line, multi_define *is_on, int *if_started,
                  hashmap *map) {
 
-	char *copy = strdup(line);
+	// char *copy = strdup(line);
 
 	if ((is_on->multiline_define == 1) || strstr(line, DEFINE_S) != NULL) {
 		parse_define(line, is_on, map);
+		map_reload(map);
 	} else if (strstr(line, UNDEF_S) != NULL) {
 		parse_undefine(line, map);
 	} else {
 		//printf("%s", parse_non_preprocessor(line, map));
-		char *buffer = strdup(parse_non_preprocessor(line, map));
-		return buffer;
+		return parse_non_preprocessor(line, map);
 	}
-
-
 }

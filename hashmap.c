@@ -108,7 +108,9 @@ void map_insert(hashmap *map, char *key, char *val) {
 	node *tmp = list;
 	while (tmp) {
 		if (strcmp(tmp->key, key) == 0) {
-			tmp->val = val;
+			free(tmp->val);
+			tmp->val = malloc(strlen(val) + 1);
+			strcpy(tmp->val, val);
 			return;
 		}
 		tmp = tmp->next;
@@ -116,8 +118,10 @@ void map_insert(hashmap *map, char *key, char *val) {
 
 
 	node *new_node = (node *)malloc(sizeof(node));
-	new_node->key = strdup(key);
-	new_node->val = strdup(val);
+	new_node->key = malloc(strlen(key) + 1);
+	strcpy(new_node->key, key);
+	new_node->val = malloc(strlen(val) + 1);
+	strcpy(new_node->val, val);
 	new_node->next = list;
 	map->map[pos] = new_node;
 }
@@ -128,10 +132,13 @@ void map_delete(hashmap *map, char *key) {
 	node *tmp = list;
 
 	if (strcmp(tmp->key, key) == 0) {
+		node *free_node = map->map[pos];
 		if (tmp->next) {
 			map->map[pos] = tmp->next;
+			free(free_node);
 		} else {
-			map->map[pos] = NULL;
+			free(map->map[pos]->key);
+			map->map[pos]->key = strdup(" ");
 		}
 		return;
 	}
@@ -162,9 +169,87 @@ char* map_find(hashmap *map, char *key) {
 	return NULL;
 }
 
+void map_reload(hashmap *map) {
+	char *sep = "\t[]{}<>=+-*/%!&|^.,:() ";
+
+	for (int i = 0; i < map->size; i++) {
+		node *tmp = map->map[i];
+		int word_started = 1;
+		char new_word[256];
+		int new_word_n = 0;
+		char buffer[256];
+		int n = 0;
+
+		while (tmp) {
+			char *val = strdup(tmp->val);
+			char *copy = val;
+
+			while ((*val) != '\0') {
+				if (strchr(sep, *val)) {
+					if (word_started == 1) {
+						new_word[new_word_n] = '\0';
+
+						char *find_res = map_find(map, new_word);
+
+						if (find_res == NULL) {
+							for (int i = 0; i < new_word_n; i++) {
+								buffer[n++] = new_word[i];
+							}
+						} else {
+							for (int i = 0; i < strlen(find_res); i++) {
+								buffer[n++] = find_res[i];
+							}
+						}
+
+						word_started = 0;
+						new_word_n = 0;
+					}
+
+					buffer[n++] = (*val);
+					val++;
+				} else {
+					word_started = 1;
+					new_word[new_word_n++] = (*val);
+					val++;
+				}
+			}
+			if (word_started == 1) {
+				new_word[new_word_n] = '\0';
+				char *find_res = map_find(map, new_word);
+
+				if (find_res == NULL) {
+					for (int i = 0; i < new_word_n; i++) {
+						buffer[n++] = new_word[i];
+					}
+				} else {
+					for (int i = 0; i < strlen(find_res); i++) {
+						buffer[n++] = find_res[i];
+					}
+				}
+			}
+
+			buffer[n] = '\0';
+			map_insert(map, tmp->key, buffer);
+			free(copy);
+			tmp = tmp->next;
+		}
+	}
+}
+
 void map_free(hashmap *map) {
 	for (int i = 0; i < map->size; i++) {
-		free(map->map[i]);
+		node *tmp = map->map[i];
+		while (tmp) {
+			node *old_tmp = tmp;
+			tmp = tmp->next;
+			if (old_tmp->key) {
+				free(old_tmp->key);
+			}
+			if (old_tmp->val) {
+				free(old_tmp->val);
+			}
+			free(old_tmp);
+		}
 	}
 	free(map->map);
 	free(map);

@@ -18,9 +18,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	if (args->infile == NULL) {
-		args->infile = "stdin";
-	} else {
+	if (args->infile != NULL) {
 		ifp = fopen(args->infile, "r");
 
 		if (ifp == NULL) {
@@ -29,9 +27,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if (args->output_file == NULL) {
-		args->output_file = "stdin";
-	} else {
+	if (args->output_file != NULL) {
 		ofp = fopen(args->output_file, "w");
 
 
@@ -43,6 +39,8 @@ int main(int argc, char *argv[])
 
 	char *line = read(ifp);
 	multi_define *is_on = (multi_define *)malloc(sizeof(multi_define));
+	is_on->key = NULL;
+	is_on->multiline_define = 0;
 
 	while (line != NULL) {
 		int is = 0;
@@ -52,11 +50,23 @@ int main(int argc, char *argv[])
 			//printf("%s", parsed_line);
 			write(ofp, parsed_line);
 		}
+        //free(parsed_line);
 
 		line = read(ifp);
 	}
 
-	map_free(map);
+	//map_print(map);
 
+	map_free(map);
+    free(is_on->key);
+    free(is_on);
+    free_args(args);
+    if (ifp != NULL) {
+        fclose(ifp);
+    }
+	fflush(ofp);
+    if (ofp != NULL) {
+        fclose(ofp);
+    }
 	return 0;
 }

@@ -24,6 +24,7 @@ int hash_code(hashmap *m, char *keystring);
 char *map_find(hashmap *map, char *key);
 void map_delete(hashmap *map, char *key);
 void map_insert(hashmap *map, char *key, char *val);
+void map_reload(hashmap *map);
 void map_free(hashmap *map);
 void map_print(hashmap *map);
 
