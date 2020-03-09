@@ -42,15 +42,17 @@ int main(int argc, char *argv[])
 	is_on->key = NULL;
 	is_on->multiline_define = 0;
 
+	if_struct *is = malloc(sizeof(if_struct));
+	is->if_started = 0;
+	is->skip_lines = 0;
+	is->ifdef_started = 0;
+
 	while (line != NULL) {
-		int is = 0;
-		char *parsed_line = parse_line(line, is_on, &is, map);
+		char *parsed_line = parse_line(line, is_on, is, map);
 
 		if (parsed_line != NULL) {
-			//printf("%s", parsed_line);
 			write(ofp, parsed_line);
 		}
-        //free(parsed_line);
 
 		line = read(ifp);
 	}
@@ -60,6 +62,7 @@ int main(int argc, char *argv[])
 	map_free(map);
     free(is_on->key);
     free(is_on);
+	free(is);
     free_args(args);
     if (ifp != NULL) {
         fclose(ifp);

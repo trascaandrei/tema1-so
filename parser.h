@@ -10,7 +10,13 @@ typedef struct multi_define {
 	char *key;
 } multi_define;
 
-char *parse_line(char *line, multi_define *is_on, int *if_started,
+typedef struct if_struct {
+	int if_started;
+	int ifdef_started;
+	int skip_lines;
+} if_struct;
+
+char *parse_line(char *line, multi_define *is_on, if_struct *is,
 	hashmap *map);
 
 void parse_define(char *line, multi_define *is_on, hashmap *map);
